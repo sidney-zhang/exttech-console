@@ -1,4 +1,7 @@
 Console::Application.routes.draw do
+  resources :types
+
+
   resources :brands
 
 
