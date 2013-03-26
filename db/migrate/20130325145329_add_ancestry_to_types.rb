@@ -1,7 +1,4 @@
 class AddAncestryToTypes < ActiveRecord::Migration
-  def change
-    add_column :types, :ancestry, :string
-  end
     def self.up  
     add_column :types, :ancestry, :string  
     add_index :types, :ancestry  

@@ -25,7 +25,9 @@ class TypesController < ApplicationController
   # GET /types/new
   # GET /types/new.json
   def new
-    @type = Type.new(:parent_id => params[:parent_id])
+    @type = Type.new()
+
+    @types = Type.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,6 +38,7 @@ class TypesController < ApplicationController
   # GET /types/1/edit
   def edit
     @type = Type.find(params[:id])
+    @types = Type.where("id <> ?",params[:id])
   end
 
   # POST /types
@@ -82,18 +85,7 @@ class TypesController < ApplicationController
     end
   end
 
-  @types_select = ancestry_options(Type.scoped.arrange(:order => 'name')) {|i| "#{'-' * i.depth} #{i.name}" }
+  @types_select = Type.all
 
-  def ancestry_options(items, &block)
-    return ancestry_options(items){ |i| "#{'-' * i.depth} #{i.name}" } unless block_given?
-
-    result = []
-    items.map do |item, sub_items|
-      result << [yield(item), item.id]
-      #this is a recursive call:
-      result += ancestry_options(sub_items, &block)
-    end
-    result
-  end
 
 end
